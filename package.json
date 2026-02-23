@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuridv/discord-prisions.git"
+    "url": "git+https://github.com/yuridv/discord-prisons.git"
   },
   "keywords": [
     "node",
@@ -24,9 +24,9 @@
   "author": "Yuri",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yuridv/discord-prisions/issues"
+    "url": "https://github.com/yuridv/discord-prisons/issues"
   },
-  "homepage": "https://github.com/yuridv/discord-prisions#readme",
+  "homepage": "https://github.com/yuridv/discord-prisons#readme",
   "engines": {
     "node": ">=24.0.0"
   },
