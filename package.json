@@ -1,5 +1,5 @@
 {
-  "name": "discord-prison",
+  "name": "discord-prisons",
   "description": "A simple prison management bot created to meet the needs of police battalion clients in the game GTA V (FiveM)",
   "version": "0.0.1",
   "main": "index.js",
