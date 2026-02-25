@@ -1,6 +1,7 @@
-const { MessageFlags, EmbedBuilder, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, LabelBuilder } = require('discord.js');
+const { MessageFlags, EmbedBuilder, ModalBuilder, UserSelectMenuBuilder, LabelBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 
 const { Errors } = require('../utils/functions');
+const { articles } = require('../utils/bases');
 const config = require('../../config.json');
 
 const command = async(client, interaction, args) => {
@@ -13,41 +14,109 @@ const command = async(client, interaction, args) => {
       return interaction.reply({ flags: MessageFlags.Ephemeral, embeds: [ embed ] });
     }
 
-    const members = await interaction.guild.members.fetch();
-
     const modal = new ModalBuilder()
       .setCustomId('prison')
-      .setTitle('Registrar Prisão');
+      .setTitle('Registro de Prisão');
 
-    const favoriteStarterSelect = new StringSelectMenuBuilder()
-      .setCustomId('prison-penal')
-      .setPlaceholder('Selecione os oficias da Penal!')
-      .setMinValues(1)
-      .setMaxValues(2)
-      .setRequired(true)
-      .addOptions(
-        new StringSelectMenuOptionBuilder()
-          // Label displayed to user
-          .setLabel('Bulbasaur')
-          // Description of option
-          .setDescription('The dual-type Grass/Poison Seed Pokémon.')
-          // Value returned to you in modal submission
-          .setValue('bulbasaur'),
-        new StringSelectMenuOptionBuilder()
-          .setLabel('Charmander')
-          .setDescription('The Fire-type Lizard Pokémon.')
-          .setValue('charmander'),
-        new StringSelectMenuOptionBuilder()
-          .setLabel('Squirtle')
-          .setDescription('The Water-type Tiny Turtle Pokémon.')
-          .setValue('squirtle')
+    const usersPrison = new LabelBuilder()
+      .setLabel('Oficiais da Prisão')
+      .setDescription('Selecione até 2 oficias responsáveis pelo registro da prisão do réu.')
+      .setUserSelectMenuComponent(
+        new UserSelectMenuBuilder()
+          .setCustomId('users-prison')
+          .setPlaceholder('Selecione os até 2 oficiais')
+          .setMinValues(1)
+          .setMaxValues(2)
       );
 
-    const favoriteStarterLabel = new LabelBuilder()
-      .setLabel('Whatz\'s your favorite Gen 1 Pokémon starter?')
-      .setStringSelectMenuComponent(favoriteStarterSelect);
+    const usersPrimary = new LabelBuilder()
+      .setLabel('Oficiais da Primaria')
+      .setDescription('Selecione até 2 oficias responsáveis pela prisão do réu.')
+      .setUserSelectMenuComponent(
+        new UserSelectMenuBuilder()
+          .setCustomId('users-primary')
+          .setPlaceholder('Selecione os até 2 oficias')
+          .setMinValues(1)
+          .setMaxValues(2)
+      );
 
-    modal.addLabelComponents(favoriteStarterLabel); 
+    const nameAttorney = new LabelBuilder()
+      .setLabel('Nome [Passaporte] do Advogado')
+      .setDescription('Escreva o nome do advogado responsável pela defesa do réu.')
+      .setTextInputComponent(
+        new TextInputBuilder()
+          .setCustomId('name-attorney')
+          .setPlaceholder('Exemplo: Fulano Fulano [666]')
+          .setStyle(TextInputStyle.Short)
+          .setRequired(false)
+      );
+
+    const namePrisoner = new LabelBuilder()
+      .setLabel('Nome [Passaporte] do Réu')
+      .setDescription('Escreva o nome do réu que está sendo conduzido réu.')
+      .setTextInputComponent(
+        new TextInputBuilder()
+          .setCustomId('name-prisoner')
+          .setPlaceholder('Exemplo: Fulano Fulano [666]')
+          .setStyle(TextInputStyle.Short)
+      );
+
+    const listArticles = new LabelBuilder()
+      .setLabel('Artigos Atribuídos')
+      .setDescription('Escreva a lista dos artigos atribuídos ao réu.')
+      .setTextInputComponent(
+        new TextInputBuilder()
+          .setCustomId('list-articles')
+          .setPlaceholder('Exemplo:\nTrafico de Drogas,\nPosse de Dinheiro Sujo (100K),\nTentativa de Fuga')
+          .setStyle(TextInputStyle.Paragraph)
+      );
+
+    const numberMonths = new LabelBuilder()
+      .setLabel('Tempo de Prisão (Meses)')
+      .setDescription('Digite o número total de meses que o réu deverá cumprir.')
+      .setTextInputComponent(
+        new TextInputBuilder()
+          .setCustomId('number-months')
+          .setPlaceholder('Exemplo: 100')
+          .setStyle(TextInputStyle.Short)
+      );
+
+    const amountFine = new LabelBuilder()
+      .setLabel('Valor da Multa')
+      .setDescription('Informe o valor total da multa aplicada ao réu.')
+      .setTextInputComponent(
+        new TextInputBuilder()
+          .setCustomId('amount-fine')
+          .setPlaceholder('Exemplo: 100')
+          .setStyle(TextInputStyle.Short)
+      );
+
+    const amountReduction = new LabelBuilder()
+      .setLabel('Redução da Pena')
+      .setDescription('Selecione as reduções aplicada na pena do réu.')
+      .setStringSelectMenuComponent(
+        new StringSelectMenuBuilder()
+          .setCustomId('amount-reduction')
+          .setPlaceholder('Selecione as reduções aplicada na pena do réu')
+          .addOptions( // No máximo 25 opções
+            reductions.map((reduction) => 
+              new StringSelectMenuOptionBuilder()
+                .setLabel(reduction.name)
+                .setValue(`${reduction.percentage}`)
+            )
+          )
+      );
+
+    modal.addLabelComponents(
+      usersPrison,
+      usersPrimary,
+      nameAttorney,
+      // namePrisoner,
+      listArticles,
+      // numberMonths,
+      // amountFine,
+      amountReduction
+    ); 
 
     await interaction.showModal(modal);
 
@@ -62,3 +131,9 @@ const command = async(client, interaction, args) => {
 module.exports = { 
   route: command
 };
+
+const reductions = [
+  { name: 'Réu Primário [20%]', percentage: 0.2 },
+  { name: 'Presença do Advogado [30%]', percentage: 0.3 },
+  { name: 'Colaboração e Confissão [10%]', percentage: 0.1 }
+];
