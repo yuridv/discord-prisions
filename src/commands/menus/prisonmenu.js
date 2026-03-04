@@ -33,11 +33,6 @@ const command = async(client, interaction, args) => {
         '\n\n> **Como registrar uma nova prisão?**' +
         '\n1º Clique no botão abaixo **"Registrar Prisão"**' +
         '\n2º Será aberto um formulário para você preencher os dados da prisão!' +
-        // '\n3º Você precisará informar o seu **ID** da cidade!' +
-        // '\n4º Você precisará informar o seu **Nome e Sobrenome** da cidade!' +
-        // '\n5º Você precisará informar o seu **Número de Telefone** da cidade!' +
-        // '\n6º Você precisará informar o **ID** de quem te **Recrutou**!' +
-        // '\n7º Você precisará entrar no servidor **Facções**!' +
 
         '\n\n> **Informações**' +
         '\n• *Após efetuar o registro da prisão, ele ficará salvo no canal de prisões!*' +
@@ -58,5 +53,5 @@ const command = async(client, interaction, args) => {
 
 module.exports = { 
   route: command,
-  description: '💬 [Mensagens] 💬 | Comando para gerar a mensagem de novas prisões.'
+  description: '💬 [Menus] 💬 | Comando para gerar a mensagem de novas prisões.'
 };
