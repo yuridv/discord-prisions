@@ -112,7 +112,7 @@ const command = async(client, interaction, args) => {
       usersPrimary,
       nameAttorney,
       namePrisoner
-    ); 
+    );
 
     // modal.addLabelComponents(
     //   listArticles,

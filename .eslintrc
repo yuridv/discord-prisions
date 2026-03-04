@@ -17,7 +17,7 @@
     "no-var": "error",                         // Proíbe usar `var` (use let/const)
     "prefer-const": "warn",                    // Sugere `const` quando variável não muda
     "quotes": ["error", "single"],             // Força aspas simples (exceto em JSON, claro)
-    "indent": ["error", 2],                    // Requer indentação de 2 espaços
+    "indent": ["error", 2],                    // Força o tab-size para 2 espaços
     "comma-dangle": ["error", "never"],        // Proíbe vírgula no final de lista (último item)
     "object-curly-spacing": ["error", "always"], // Força espaço entre chaves: { chave: valor }
     "array-bracket-spacing": ["error", "always"], // Força espaço dentro de colchetes: [ 1, 2 ]
