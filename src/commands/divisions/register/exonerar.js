@@ -91,11 +91,32 @@ const command = async(client, interaction, args) => {
       return interaction.reply({ embeds: [ embed ], flags: MessageFlags.Ephemeral });
     }
 
-    for (const role of roles_division) {
-      await user.member.roles.remove(role).catch(() => {});
+    await user.member.roles.remove(roles_division);
+    await user.member.roles.remove(config.divisions.roles.register.category[division]);
+
+    if (user.member.roles.cache.has(config.divisions.roles.register.unidades.graer[0])) {
+      await user.member.setNickname(`GRAER・${user.name} [${user.passport}]`);
+    } else if (user.member.roles.cache.has(config.divisions.roles.register.unidades.speed[0])) {
+      await user.member.setNickname(`SPEED・${user.name} [${user.passport}]`);
+    } else if (user.member.roles.cache.has(config.divisions.roles.register.unidades.gtm[0])) {
+      await user.member.setNickname(`GTM・${user.name} [${user.passport}]`);
+    } else {
+      await user.member.roles.remove([
+        config.divisions.roles.register.battalions.militar,
+        config.divisions.roles.register.battalions.civil,
+        config.divisions.roles.register.battalions.exercito
+      ]);
+
+      await user.member.roles.add(config.divisions.roles.register.unregistered);
+
+      await user.member.setNickname(`${user.name} [${user.passport}]`);
     }
 
-    await user.member.roles.remove(config.divisions.roles.register.category[division]).catch(() => {});
+    const embedSuccess = new EmbedBuilder()
+      .setColor('#00FF00')
+      .setDescription(`${emojis.success} • *O oficial* ***${user.name} [${user.passport}]*** *foi exonerado da divisão* ***${division.toUpperCase()}*** *com sucesso!*`);
+
+    await interaction.reply({ embeds: [ embedSuccess ], flags: MessageFlags.Ephemeral }).catch(() => {});
 
     const motivo = args.find((r) => r.name === 'motivo')?.value;
     const { passport, name } = extractName(interaction.member.nickname);
@@ -139,13 +160,7 @@ const command = async(client, interaction, args) => {
       }
     ], '#FF0000');
 
-    channel.send({ components: [ container ], flags: MessageFlags.IsComponentsV2 });
-
-    const embedSuccess = new EmbedBuilder()
-      .setColor('#00FF00')
-      .setDescription(`${emojis.success} • *O oficial* ***${user.name} [${user.passport}]*** *foi exonerado da divisão* ***${division.toUpperCase()}*** *com sucesso!*`);
-
-    return interaction.reply({ embeds: [ embedSuccess ], flags: MessageFlags.Ephemeral });
+    return channel.send({ components: [ container ], flags: MessageFlags.IsComponentsV2 });
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction, args))

@@ -76,12 +76,14 @@ const button = async(client, interaction, args) => {
 
     const user = interaction.guild.members.cache.get(userId);
     if (user) {
-      await user.roles.remove(config.divisions.roles.register.unregistered).catch(() => {});
-      await user.roles.remove(config.divisions.roles.register.waiting).catch(() => {});
+      await user.roles.remove([
+        config.divisions.roles.register.unregistered,
+        config.divisions.roles.register.waiting,
 
-      await user.roles.remove(config.divisions.roles.register.battalions.militar).catch(() => {});
-      await user.roles.remove(config.divisions.roles.register.battalions.civil).catch(() => {});
-      await user.roles.remove(config.divisions.roles.register.battalions.exercito).catch(() => {});
+        config.divisions.roles.register.battalions.militar,
+        config.divisions.roles.register.battalions.civil,
+        config.divisions.roles.register.battalions.exercito
+      ]);
 
       await user.roles.add([
         config.divisions.roles.register.category.battalions, // Categoria Batalhões
@@ -90,9 +92,9 @@ const button = async(client, interaction, args) => {
         config.divisions.roles.register.category[division], // Categoria Divisões
         roles_division[0], // Unidade da Divisão
         roles_division[1] // Probatório da Divisão
-      ]).catch(() => {});
+      ]);
 
-      await user.setNickname(`${division.toUpperCase()}・${userName} [${userPassport}]`).catch(() => {});
+      await user.setNickname(`${division.toUpperCase()}・${userName} [${userPassport}]`);
     }
 
     return interaction.message.edit({ components: [ container ] });
