@@ -149,8 +149,8 @@ const command = async(client, interaction, args) => {
         type: 'textDisplay',
         description:
           `\n\n> ### ${emojis.folder} ・ ***Informações Extras:***` +
-          `\n ・ **Divisão:** <@&${roles_division[0]}>` +
-          `\n ・ **Patente Anterior:** <@&${roles_division[memberRankIndex]}>` +
+          `\n\n ・ **Divisão:** <@&${roles_division[0]}>` +
+          `\n\n ・ **Patente Anterior:** <@&${roles_division[memberRankIndex]}>` +
           `\n ・ **Patente Nova:** <@&${roles_division[nextRankIndex]}>`
       },
       { type: 'separator' },

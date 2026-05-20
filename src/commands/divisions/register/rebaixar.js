@@ -152,9 +152,9 @@ const command = async(client, interaction, args) => {
         description:
           `\n\n> ### ${emojis.folder} ・ ***Informações Extras:***` +
           `\n ・ **Divisão:** <@&${roles_division[0]}>` +
-          `\n ・ **Patente Anterior:** <@&${roles_division[memberRankIndex]}>` +
-          `\n ・ **Patente Nova:** <@&${roles_division[prevRankIndex]}>` +
-          `\n ・ **Motivo:** ${motivo}`
+          `\n ・ **Motivo:** ${motivo}` +
+          `\n\n ・ **Patente Anterior:** <@&${roles_division[memberRankIndex]}>` +
+          `\n ・ **Patente Nova:** <@&${roles_division[prevRankIndex]}>`
       },
       { type: 'separator' },
       {
